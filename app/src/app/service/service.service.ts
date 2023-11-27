@@ -68,17 +68,19 @@ export class ServiceService {
         connectedUsersList.innerHTML = '';
 
         filteredUsers.forEach((user: any, index: number) => {
-          console.log(index);
-          const listItem = document.createElement('li');
-          listItem.textContent = user.nickName;
-          connectedUsersList.appendChild(listItem);
+          // console.log(index);
+          // const listItem = document.createElement('li');
+          // listItem.textContent = user.nickName;
+          // connectedUsersList.appendChild(listItem);
+
+          this.appendUserElement(user, connectedUsersList);
 
           // Add separator if not the last user
-          // if (index < filteredUsers.length - 1) {
-          //   const separator = document.createElement('li');
-          //   separator.classList.add('separator');
-          //   connectedUsersList.appendChild(separator);
-          // }
+          if (index < filteredUsers.length - 1) {
+            const separator = document.createElement('li');
+            separator.classList.add('separator');
+            connectedUsersList.appendChild(separator);
+          }
         });
       } else {
         console.error('Connected Users List Element not found');
@@ -89,9 +91,53 @@ export class ServiceService {
   }
 
 
-  appendUserElement(user: any, parentElement: HTMLUListElement): void {
-    // Implement the logic to create and append user elements to the list
-    // For example, create an li element, set its content or attributes, and append it to the parentElement.
+  appendUserElement(user: any, connectedUsersList: any): void {
+    const listItem = document.createElement('li');
+    // listItem.classList.add('user-item');
+    listItem.id = user.nickName;
+
+    const userImage = document.createElement('img');
+    userImage.src = '../assets/img/user_icon.jpg';
+    userImage.alt = user.fullName;
+    userImage.width = 40; // Set the desired width
+    userImage.height = 40;
+
+    const usernameSpan = document.createElement('span');
+    usernameSpan.textContent = user.fullName;
+    usernameSpan.style.margin = '10px'; // Adjust the left margin as needed
+    usernameSpan.style.fontSize = '16px';
+
+
+    const receivedMsgs = document.createElement('span');
+    receivedMsgs.textContent = '0';
+    receivedMsgs.classList.add('nbr-msg', 'hidden');
+    receivedMsgs.style.margin = '10px'; // Adjust the left margin as needed
+    receivedMsgs.style.fontSize = '16px';
+
+    listItem.appendChild(userImage);
+    listItem.appendChild(usernameSpan);
+    listItem.appendChild(receivedMsgs);
+
+    listItem.addEventListener('click', this.userItemClick);
+
+    connectedUsersList.appendChild(listItem);
   }
 
+  userItemClick(event) {
+    document.querySelectorAll('.user-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    // messageForm.classList.remove('hidden');
+
+    // const clickedUser = event.currentTarget;
+    // clickedUser.classList.add('active');
+
+    // selectedUserId = clickedUser.getAttribute('id');
+    // fetchAndDisplayUserChat().then();
+
+    // const nbrMsg = clickedUser.querySelector('.nbr-msg');
+    // nbrMsg.classList.add('hidden');
+    // nbrMsg.textContent = '0';
+
+  }
 }
