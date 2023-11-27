@@ -1,6 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
+import { Component, OnInit } from '@angular/core';
+
 import { ServiceService } from './service/service.service';
 import { Model } from './model';
 
@@ -10,12 +9,13 @@ import { Model } from './model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+chatPage: any;
 
 constructor(public service:ServiceService){
 
 }
   ngOnInit(): void {
-    
+    window.onbeforeunload = () => this.onLogout();
   }
 objec:Model=new Model();
 connect() {
@@ -24,9 +24,10 @@ connect() {
 // throw new Error('Method not implemented.');
 }
 onLogout() {
-throw new Error('Method not implemented.');
+
+  this.service.onLogout();
 }
-callSendMessage() {
+SendMessage() {
   // Assuming you have an event object to pass, you can create a synthetic one
   const syntheticEvent = new Event('syntheticEvent');
 

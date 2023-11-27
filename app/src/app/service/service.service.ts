@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Model } from '../model';
 declare var SockJS;
 declare var Stomp;
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService {
+export class ServiceService  {
 
   public stompClient;
   public msg = [];
@@ -34,7 +35,9 @@ export class ServiceService {
   }
 
   nickname: string;
+  userObj:any=new Model();
   onConnected(obj: any) {
+    this.userObj=obj;
     this.stompClient.subscribe(`/user/${this.nickname}/queue/messages`, this.onMessageReceived.bind(this));
 
 // Subscribe to the public message queue
@@ -278,6 +281,11 @@ this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
     }
 }
 
+onLogout(){
+  this.userObj.status="OFFLINE"
+  this.stompClient.send('/app/user.disconnectUser',{},JSON.stringify(this.userObj));
+  window.location.reload();
+}
 
 }
 

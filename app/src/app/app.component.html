@@ -22,7 +22,7 @@
             <div class="users-list-container">
                 <h2>Online Users</h2>
                 <ul id="connectedUsers">
-                    <!-- Online Users List will be displayed here -->
+               
                 </ul>
             </div>
             <div>
@@ -33,10 +33,10 @@
 
         <div class="chat-area">
             <div class="chat-area" id="chat-messages">
-                <!-- Chat messages will be displayed here -->
+
             </div>
 
-            <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="callSendMessage()">
+            <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="SendMessage()">
                 <div class="message-input">
                     <input autocomplete="off" type="text" id="message" placeholder="Type your message..."
                         [(ngModel)]="messageContent" required>
