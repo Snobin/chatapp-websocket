@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-
 public class UserService {
 	  @Autowired
 	  private  UserRepository repository;

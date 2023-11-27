@@ -19,15 +19,19 @@ constructor(public service:ServiceService){
   }
 objec:Model=new Model();
 connect() {
-  this.service.sendMessage(this.objec)
+  this.service.onConnected(this.objec)
   this.loggedIn=true
 // throw new Error('Method not implemented.');
 }
 onLogout() {
 throw new Error('Method not implemented.');
 }
-sendMessage() {
-throw new Error('Method not implemented.');
+callSendMessage() {
+  // Assuming you have an event object to pass, you can create a synthetic one
+  const syntheticEvent = new Event('syntheticEvent');
+
+  // Call the sendMessage method
+  this.service.sendMessage(syntheticEvent);
 }
 
 messageFormVisible: any=true;

@@ -36,7 +36,7 @@
                 <!-- Chat messages will be displayed here -->
             </div>
 
-            <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="sendMessage()">
+            <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="callSendMessage()">
                 <div class="message-input">
                     <input autocomplete="off" type="text" id="message" placeholder="Type your message..."
                         [(ngModel)]="messageContent" required>
