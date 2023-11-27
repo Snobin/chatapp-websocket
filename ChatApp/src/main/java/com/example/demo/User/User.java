@@ -8,21 +8,22 @@ public class User {
 	@Id
 	@Field("nickName")
 	private String nickName;
-	private Status Status;
+	private Status status;
 	private String fullName;
-	
-	
+
+
 	public String getNickName() {
 		return nickName;
 	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+	
 	public Status getStatus() {
-		return Status;
+		return status;
 	}
 	public void setStatus(Status status) {
-		Status = status;
+		this.status = status;
 	}
 	public String getFullName() {
 		return fullName;

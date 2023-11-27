@@ -8,8 +8,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
@@ -17,7 +17,7 @@ public class UserController {
 		private  UserService userService;
 
 	    @MessageMapping("/user.adduser")
-//	    @SendTo("/user/public")
+	    @SendTo("/user/public")
 	    public User addUser(
 	            @Payload User user
 	    ) {
@@ -34,7 +34,8 @@ public class UserController {
 	        userService.disconnect(user);
 	        return user;
 	    }
-
+	    
+	    @CrossOrigin(origins = "http://localhost:4200")
 	    @GetMapping("/users")
 	    public ResponseEntity<List<User>> findConnectedUsers() {
 	        return ResponseEntity.ok(userService.findConnectedUsers());

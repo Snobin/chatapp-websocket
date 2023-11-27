@@ -9,11 +9,18 @@ import { Model } from './model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-constructor(public service:ServiceService){}
+export class AppComponent implements OnInit {
+
+constructor(public service:ServiceService){
+
+}
+  ngOnInit(): void {
+    
+  }
 objec:Model=new Model();
 connect() {
   this.service.sendMessage(this.objec)
+  this.loggedIn=true
 // throw new Error('Method not implemented.');
 }
 onLogout() {
@@ -22,8 +29,9 @@ throw new Error('Method not implemented.');
 sendMessage() {
 throw new Error('Method not implemented.');
 }
-loggedIn: any;
-messageFormVisible: any;
+
+messageFormVisible: any=true;
 messageContent: any;
+loggedIn:any=false;
   
 }

@@ -6,14 +6,15 @@
     <h2>Enter Chat</h2>
     <form #usernameForm  (ngSubmit)="connect()">
         <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required [(ngModel)]="objec.nickName">
+        <input type="text" id="nickname" name="nickname" required [(ngModel)]="objec.nickName"  [ngModelOptions]="{standalone:true}">
 
         <label for="fullname">Real Name:</label>
-        <input type="text" id="fullname" name="realname" required [(ngModel)]="objec.fullName">
+        <input type="text" id="fullname" name="realname" required [(ngModel)]="objec.fullName"  [ngModelOptions]="{standalone:true}">
 
         <button type="submit">Enter Chat</button>
     </form>
 </div>
+
 
 <ng-template #chatPage>
     <div class="chat-container" *ngIf="loggedIn">
