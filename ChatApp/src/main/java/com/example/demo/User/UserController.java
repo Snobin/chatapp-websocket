@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import jakarta.validation.Valid;
+
 @Controller
 public class UserController {
 		@Autowired
@@ -22,8 +24,8 @@ public class UserController {
 
 	    @MessageMapping("/user.adduser")
 	    @SendTo("/user/public")
-	    public User addUser(
-	            @Payload User user
+	    public UserDto addUser(
+	            @Payload UserDto user
 	    ) {
 	    	System.out.println("Received");
 	        userService.saveUser(user);

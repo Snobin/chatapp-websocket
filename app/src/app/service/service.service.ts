@@ -6,7 +6,7 @@ declare var Stomp;
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService  {
+export class ServiceService {
 
   public stompClient;
   public msg = [];
@@ -35,31 +35,23 @@ export class ServiceService  {
   }
 
   nickname: string;
-  userObj:any=new Model();
+  userObj: any = new Model();
   onConnected(obj: any) {
-    this.userObj=obj;
-    this.stompClient.subscribe(`/user/${this.nickname}/queue/messages`, this.onMessageReceived.bind(this));
-
-// Subscribe to the public message queue
-this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
-    const that = this; // Store reference to 'this' for use inside the callback
+    this.userObj = obj;
     this.nickname = obj.nickName;
+    
     if (this.stompClient && this.stompClient.connected) {
-
-      const a = this.nickname;
-      console.log(a)
-      that.stompClient.subscribe(`/user/${this.nickname}/queue/public`, (message) => {
-        if (message.body) {
-          that.msg.push(message.body);
-        }
-      });
+      this.stompClient.subscribe(`/user/${this.nickname}/queue/messages`, this.onMessageReceived.bind(this));
+      this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
+  
       this.stompClient.send('/app/user.adduser', {}, JSON.stringify(obj));
-
+  
       this.findAndDisplayConnectedUsers().then();
     } else {
       console.error('WebSocket connection is not established.');
     }
   }
+  
   async findAndDisplayConnectedUsers(): Promise<void> {
     try {
       const connectedUsers = await this.http.get<any[]>('http://localhost:8088/users').toPromise();
@@ -102,15 +94,15 @@ this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
     const listItem = document.createElement('li');
     // listItem.classList.add('user-item');
     listItem.id = user.nickName;
-    
-    // Add a block effect on hover
-listItem.addEventListener('mouseenter', () => {
-  listItem.style.backgroundColor = '#FF5733'; // Change the background color on hover
-});
 
-listItem.addEventListener('mouseleave', () => {
-  listItem.style.backgroundColor = ''; // Reset the background color on mouse leave
-});
+    // Add a block effect on hover
+    listItem.addEventListener('mouseenter', () => {
+      listItem.style.backgroundColor = '#FF5733'; // Change the background color on hover
+    });
+
+    listItem.addEventListener('mouseleave', () => {
+      listItem.style.backgroundColor = ''; // Reset the background color on mouse leave
+    });
 
     const userImage = document.createElement('img');
     userImage.src = '../assets/images/icon.jpg';
@@ -120,7 +112,7 @@ listItem.addEventListener('mouseleave', () => {
 
     const usernameSpan = document.createElement('span');
     usernameSpan.textContent = user.fullName;
-    usernameSpan.style.margin = '10px'; 
+    usernameSpan.style.margin = '10px';
     usernameSpan.style.fontSize = '16px';
 
 
@@ -208,20 +200,20 @@ listItem.addEventListener('mouseleave', () => {
 
     // Add styles based on senderId after appending the element
     if (senderId === this.nickname) {
-        messageContainer.classList.add('sender');
-        
+      messageContainer.classList.add('sender');
 
-        message.style.backgroundColor = '#3498db'; // Background color for receiver message
-        message.style.color = '#fff';
-        messageContainer.style.marginRight = 'auto';
+
+      message.style.backgroundColor = '#3498db'; // Background color for receiver message
+      message.style.color = '#fff';
+      messageContainer.style.marginRight = 'auto';
     } else {
-        messageContainer.classList.add('receiver');
-        messageContainer.style.display = 'flex';
-        messageContainer.style.marginLeft = 'auto'; // Align to the right for the receiver
+      messageContainer.classList.add('receiver');
+      messageContainer.style.display = 'flex';
+      messageContainer.style.marginLeft = 'auto'; // Align to the right for the receiver
 
-        // Set background color only for the message text
-        message.style.backgroundColor = '#ecf0f1'; // Background color for receiver message
-        message.style.color = '#333'; // Text color for receiver message
+      // Set background color only for the message text
+      message.style.backgroundColor = '#ecf0f1'; // Background color for receiver message
+      message.style.color = '#333'; // Text color for receiver message
     }
 
     messageContainer.appendChild(message);
@@ -234,7 +226,7 @@ listItem.addEventListener('mouseleave', () => {
     // messageContainer.style.width = "500px";
     // Make the div scrollable
     chatArea.style.overflowY = 'auto';
-}
+  }
 
 
 
@@ -279,40 +271,40 @@ listItem.addEventListener('mouseleave', () => {
 
     // Assuming selectedUserId, displayMessage, chatArea, messageForm are properties of your class
     if (this.selectedUserId && this.selectedUserId === message.senderId) {
-        this.displayMessage(message.senderId, message.content);
-        const chatArea = document.getElementById('chat-messages') as HTMLDivElement;
-        if (chatArea) {
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
+      this.displayMessage(message.senderId, message.content);
+      const chatArea = document.getElementById('chat-messages') as HTMLDivElement;
+      if (chatArea) {
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
     }
 
     if (this.selectedUserId) {
-        const selectedUserElement = document.querySelector(`#${this.selectedUserId}`);
-        if (selectedUserElement) {
-            selectedUserElement.classList.add('active');
-        }
+      const selectedUserElement = document.querySelector(`#${this.selectedUserId}`);
+      if (selectedUserElement) {
+        selectedUserElement.classList.add('active');
+      }
     } else {
-        const messageForm = document.getElementById('messageForm') as HTMLFormElement;
-        if (messageForm) {
-            messageForm.classList.add('hidden');
-        }
+      const messageForm = document.getElementById('messageForm') as HTMLFormElement;
+      if (messageForm) {
+        messageForm.classList.add('hidden');
+      }
     }
 
     const notifiedUser = document.querySelector(`#${message.senderId}`);
     if (notifiedUser && !notifiedUser.classList.contains('active')) {
-        const nbrMsg = notifiedUser.querySelector('.nbr-msg') as HTMLSpanElement;
-        if (nbrMsg) {
-            nbrMsg.classList.remove('hidden');
-            nbrMsg.textContent = '';
-        }
+      const nbrMsg = notifiedUser.querySelector('.nbr-msg') as HTMLSpanElement;
+      if (nbrMsg) {
+        nbrMsg.classList.remove('hidden');
+        nbrMsg.textContent = '';
+      }
     }
-}
+  }
 
-onLogout(){
-  this.userObj.status="OFFLINE"
-  this.stompClient.send('/app/user.disconnectUser',{},JSON.stringify(this.userObj));
-  window.location.reload();
-}
+  onLogout() {
+    this.userObj.status = "OFFLINE"
+    this.stompClient.send('/app/user.disconnectUser', {}, JSON.stringify(this.userObj));
+    window.location.reload();
+  }
 
 }
 

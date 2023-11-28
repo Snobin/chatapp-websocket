@@ -13,7 +13,10 @@ public class UserService {
 	  @Autowired
 	  private  UserRepository repository;
 
-	    public void saveUser(User user) {
+	    public void saveUser(UserDto obj) {
+	    	User user= new User();
+	    	user.setNickName(obj.getNickName());
+	    	user.setFullName(obj.getFullName());
 	        user.setStatus(Status.ONLINE);
 	        repository.save(user);
 	    }
