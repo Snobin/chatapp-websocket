@@ -1,16 +1,16 @@
 <!-- chat.component.html -->
 
-<h2 style="margin: auto; text-align: center;">One to One Chat | Spring boot & Websocket</h2>
+<h2 style="margin: auto; text-align: center;">Real Time Chat</h2>
 
 
 <div class="user-form" *ngIf="!loggedIn; else chatPage" id="username-page">
     <h2>Enter Chat</h2>
     <form #usernameForm  (ngSubmit)="connect()">
         <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required [(ngModel)]="objec.nickName"  [ngModelOptions]="{standalone:true}">
+        <input type="text" id="nickname" [(ngModel)]="objec.nickName" name="nickname" required   >
 
         <label for="fullname">Real Name:</label>
-        <input type="text" id="fullname" name="realname" required [(ngModel)]="objec.fullName"  [ngModelOptions]="{standalone:true}">
+        <input type="text" id="fullname" [(ngModel)]="objec.fullName"  name="fullname" required  >
 
         <button type="submit">Enter Chat</button>
     </form>
@@ -40,7 +40,7 @@
             <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="SendMessage()">
                 <div class="message-input">
                     <input autocomplete="off" type="text" id="message" placeholder="Type your message..."
-                        [(ngModel)]="messageContent" required>
+                        [(ngModel)]="messageContent" name="message" required>
                     <button type="submit">Send</button>
                 </div>
             </form>
