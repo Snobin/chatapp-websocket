@@ -21,17 +21,17 @@ objec:Model=new Model();
 connect() {
   this.service.onConnected(this.objec)
   this.loggedIn=true
-// throw new Error('Method not implemented.');
+ 
 }
 onLogout() {
 
   this.service.onLogout();
 }
 SendMessage() {
-  // Assuming you have an event object to pass, you can create a synthetic one
+  
   const syntheticEvent = new Event('syntheticEvent');
 
-  // Call the sendMessage method
+  
   this.service.sendMessage(syntheticEvent);
 }
 

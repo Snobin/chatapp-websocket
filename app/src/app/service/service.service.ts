@@ -102,16 +102,25 @@ this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
     const listItem = document.createElement('li');
     // listItem.classList.add('user-item');
     listItem.id = user.nickName;
+    
+    // Add a block effect on hover
+listItem.addEventListener('mouseenter', () => {
+  listItem.style.backgroundColor = '#FF5733'; // Change the background color on hover
+});
+
+listItem.addEventListener('mouseleave', () => {
+  listItem.style.backgroundColor = ''; // Reset the background color on mouse leave
+});
 
     const userImage = document.createElement('img');
-    userImage.src = '../assets/img/user_icon.jpg';
+    userImage.src = '../assets/images/icon.jpg';
     userImage.alt = user.fullName;
     userImage.width = 40; // Set the desired width
     userImage.height = 40;
 
     const usernameSpan = document.createElement('span');
     usernameSpan.textContent = user.fullName;
-    usernameSpan.style.margin = '10px'; // Adjust the left margin as needed
+    usernameSpan.style.margin = '10px'; 
     usernameSpan.style.fontSize = '16px';
 
 
@@ -123,7 +132,7 @@ this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
 
     listItem.appendChild(userImage);
     listItem.appendChild(usernameSpan);
-    listItem.appendChild(receivedMsgs);
+    // listItem.appendChild(receivedMsgs);
 
     listItem.addEventListener('click', this.userItemClick);
 
@@ -187,31 +196,49 @@ this.stompClient.subscribe(`/user/public`, this.onMessageReceived.bind(this));
     }
   }
 
-  displayMessage(senderId: string, content: string): void {
+  displayMessage(senderId: string, content: string) {
     const messageContainer = document.createElement('div');
     messageContainer.classList.add('message');
-
-    // Assuming nickname is a property in your class
-    if (senderId === this.nickname) {
-      messageContainer.classList.add('sender');
-    } else {
-      messageContainer.classList.add('receiver');
-    }
+    messageContainer.style.display = 'flex';
+    messageContainer.style.width = 'auto';
+    // messageContainer.style.overflowY = 'auto';
 
     const message = document.createElement('p');
     message.textContent = content;
 
+    // Add styles based on senderId after appending the element
+    if (senderId === this.nickname) {
+        messageContainer.classList.add('sender');
+        
+
+        message.style.backgroundColor = '#3498db'; // Background color for receiver message
+        message.style.color = '#fff';
+        messageContainer.style.marginRight = 'auto';
+    } else {
+        messageContainer.classList.add('receiver');
+        messageContainer.style.display = 'flex';
+        messageContainer.style.marginLeft = 'auto'; // Align to the right for the receiver
+
+        // Set background color only for the message text
+        message.style.backgroundColor = '#ecf0f1'; // Background color for receiver message
+        message.style.color = '#333'; // Text color for receiver message
+    }
+
     messageContainer.appendChild(message);
 
-    // Assuming chatArea is a property in your class
     const chatArea = document.getElementById('chat-messages') as HTMLDivElement;
+    chatArea.appendChild(messageContainer);
 
-    if (chatArea) {
-      chatArea.appendChild(messageContainer);
-    } else {
-      console.error('Chat Area Element not found');
-    }
-  }
+    // Set a fixed height for the chat area
+    chatArea.style.height = '300px'; // Adjust the height as needed
+    // messageContainer.style.width = "500px";
+    // Make the div scrollable
+    chatArea.style.overflowY = 'auto';
+}
+
+
+
+
   // Assuming this is a method inside your service
   sendMessage(event: Event): void {
     const messageInput = document.getElementById('message') as HTMLInputElement;
