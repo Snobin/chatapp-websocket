@@ -17,3 +17,7 @@
 14:43:54.609 [main] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2a6fb62f]]
 14:43:54.609 [main] INFO  o.s.m.s.b.SimpleBrokerMessageHandler - Started.
 14:43:54.615 [main] INFO  com.example.demo.ChatAppApplication - Started ChatAppApplication in 2.408 seconds (process running for 3.233)
+14:44:54.411 [MessageBroker-1] INFO  o.s.w.s.c.WebSocketMessageBrokerStats - WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+14:47:15.908 [http-nio-8088-exec-4] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+14:47:15.908 [http-nio-8088-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+14:47:15.909 [http-nio-8088-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
