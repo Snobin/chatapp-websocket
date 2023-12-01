@@ -12,38 +12,53 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-import jakarta.validation.Valid;
+import com.example.demo.feign.JWTFeignClient;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 @Controller
 public class UserController {
-		@Autowired
-		private  UserService userService;
-		
-		Logger logger=LoggerFactory.getLogger(UserController.class);
+    @Autowired
+    private UserService userService;
 
-	    @MessageMapping("/user.adduser")
-	    @SendTo("/user/public")
-	    public UserDto addUser(
-	            @Payload UserDto user
-	    ) {
-	    	System.out.println("Received");
-	        userService.saveUser(user);
-	        return user;
-	    }
+    @Autowired
+    private JWTFeignClient client;
 
-	    @MessageMapping("/user.disconnectUser")
-	    @SendTo("/user/public")
-	    public User disconnectUser(
-	            @Payload User user
-	    ) {
-	        userService.disconnect(user);
-	        return user;
-	    }
-	    
-	    @CrossOrigin(origins = "http://localhost:4200")
-	    @GetMapping("/users")
-	    public ResponseEntity<List<User>> findConnectedUsers() {
-	        return ResponseEntity.ok(userService.findConnectedUsers());
-	    }
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @MessageMapping("/user.adduser")
+    @SendTo("/user/public")
+    @Operation
+    public UserDto addUser(@Payload UserDto user, @RequestHeader("Authorization") String token) {
+        System.out.println("Received");
+
+        // Assuming you have a method in FeigClient to validate the token
+        if (client.validateToken(token)) {
+            userService.saveUser(user);
+            return user;
+        } else {
+            logger.warn("Invalid token received for user: {}", token);
+            // Handle invalid token scenario
+            return null;
+        }
+    }
+
+    @MessageMapping("/user.disconnectUser")
+    @SendTo("/user/public")
+    @Operation
+    public User disconnectUser(@Payload User user) {
+        userService.disconnect(user);
+        return user;
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/users")
+    @Operation
+    public ResponseEntity<List<User>> findConnectedUsers() {
+        // You can call other methods in FeigClient if needed
+        List<User> connectedUsers = userService.findConnectedUsers();
+        return ResponseEntity.ok(connectedUsers);
+    }
 }

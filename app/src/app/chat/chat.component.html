@@ -1,0 +1,50 @@
+<!-- chat.component.html -->
+
+<h2 style="margin: auto; text-align: center;">Real Time Chat</h2>
+
+
+<div class="user-form" *ngIf="!loggedIn; else chatPage" id="username-page">
+    <h2>Enter Chat</h2>
+    <form #usernameForm (ngSubmit)="connect()">
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname" [(ngModel)]="objec.nickName" name="nickname" required>
+      
+        <label for="fullname">Real Name:</label>
+        <input type="text" id="fullname" [(ngModel)]="objec.fullName" name="fullname" required>
+      
+        <button type="submit">Enter Chat</button>
+      </form>
+      
+</div>
+
+
+<ng-template #chatPage>
+    <div class="chat-container" *ngIf="loggedIn">
+        <div class="users-list">
+            <div class="users-list-container">
+                <h2>Online Users</h2>
+                <ul id="connectedUsers">
+               
+                </ul>
+            </div>
+            <div>
+                <p id="connected-user-fullname">{{ objec.fullName }}</p>
+                <a class="logout" href="javascript:void(0)" (click)="onLogout()">Logout</a>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="chat-area" id="chat-messages">
+
+            </div>
+
+            <form id="messageForm" name="messageForm" *ngIf="messageFormVisible" (ngSubmit)="SendMessage()">
+                <div class="message-input">
+                    <input autocomplete="off" type="text" id="message" placeholder="Type your message..."
+                        [(ngModel)]="messageContent" name="message" required>
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
